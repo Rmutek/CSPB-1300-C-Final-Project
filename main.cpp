@@ -5,10 +5,10 @@ CSPB 1300 Image Processing Application
 PLEASE FILL OUT THIS SECTION PRIOR TO SUBMISSION
 
 - Your name:
-    <ANSWER>
+    Rebecca Mutek
 
 - All project requirements fully met? (YES or NO):
-    <ANSWER>
+    Yes
 
 - If no, please explain what you could not get to work:
     <ANSWER>
