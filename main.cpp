@@ -478,6 +478,111 @@ vector<vector<Pixel>> process_8(vector<vector<Pixel>> image) {
     return new_image;
 }
 
+/**
+ * Darkens image
+ * @param image The input image to add effect to
+ * @return vector of vectors of type Pixel
+ */
+vector<vector<Pixel>> process_9(vector<vector<Pixel>> image) {
+    int num_rows = image.size(); // height
+    int num_columns = image[0].size(); // width
+    vector<vector<Pixel>> new_image(num_rows, vector<Pixel> (num_columns));
+
+    for (int row = 0; row < num_rows; row++)
+    {
+        for (int col = 0; col < num_columns; col++)
+        {
+            int red_color = image[row][col].red;
+            int green_color = image[row][col].green;
+            int blue_color = image[row][col].blue;
+
+            double scaling_factor = 0.55;
+
+            int newred = red_color * scaling_factor;
+            int newgreen = green_color * scaling_factor;
+            int newblue = blue_color * scaling_factor;
+            
+            new_image[row][col].red = newred;
+            new_image[row][col].green = newgreen;
+            new_image[row][col].blue = newblue;
+        }
+    }
+
+    return new_image;
+}
+
+/**
+ * Converts to only black, white, red, blue and green
+ * @param image The input image to add effect to
+ * @return vector of vectors of type Pixel
+ */
+vector<vector<Pixel>> process_10(vector<vector<Pixel>> image) {
+    int num_rows = image.size(); // height
+    int num_columns = image[0].size(); // width
+    vector<vector<Pixel>> new_image(num_rows, vector<Pixel> (num_columns));
+
+    for (int row = 0; row < num_rows; row++)
+    {
+        for (int col = 0; col < num_columns; col++)
+        {
+            int red_color = image[row][col].red;
+            int green_color = image[row][col].green;
+            int blue_color = image[row][col].blue;
+
+            int newred = 0;
+            int newgreen = 0;
+            int newblue = 0;
+
+            int max_color = red_color;
+            if (green_color > red_color && green_color > blue_color)
+            {
+                max_color = green_color;
+            }
+            else if (blue_color > red_color && blue_color > green_color)
+            {
+                max_color = blue_color;
+            }
+
+            if (red_color + green_color + blue_color >= 550)
+            {
+                newred = 255;
+                newgreen = 255;
+                newblue = 255;
+            }
+            else if (red_color + green_color + blue_color <= 150)
+            {
+                newred = 0;
+                newgreen = 0;
+                newblue = 0;
+            }
+            else if (max_color == red_color)
+            {
+                newred = 255;
+                newgreen = 0;
+                newblue = 0;
+            }
+            else if (max_color == green_color)
+            {
+                newred = 0;
+                newgreen = 255;
+                newblue = 0;
+            }
+            else
+            {
+                newred = 0;
+                newgreen = 0;
+                newblue = 255;
+            }
+            
+            new_image[row][col].red = newred;
+            new_image[row][col].green = newgreen;
+            new_image[row][col].blue = newblue;
+        }
+    }
+
+    return new_image;
+}
+
 int main()
 {
     
@@ -509,6 +614,12 @@ int main()
 
     vector<vector<Pixel>> img_process_8 = process_8(img);
     write_image("test_sample_process_8.bmp", img_process_8);
+
+    vector<vector<Pixel>> img_process_9 = process_9(img);
+    write_image("test_sample_process_9.bmp", img_process_9);
+
+    vector<vector<Pixel>> img_process_10 = process_10(img);
+    write_image("test_sample_process_10.bmp", img_process_10);
 
     // Write the resulting 2D vector to a new BMP image file (using write_image function)
 	cout << "\n\n\nThis line should be your own code!\n\n\n";
