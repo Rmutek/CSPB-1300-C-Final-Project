@@ -238,6 +238,11 @@ bool write_image(string filename, const vector<vector<Pixel>>& image)
 // YOUR FUNCTION DEFINITIONS HERE
 //
 
+/**
+ * Adds vignette effect - dark corners
+ * @param image The input image to add effect to
+ * @return vector of vectors of type Pixel
+ */
 vector<vector<Pixel>> process_1(vector<vector<Pixel>> image) {
     int num_rows = image.size(); // height
     int num_columns = image[0].size(); // width
@@ -269,6 +274,209 @@ vector<vector<Pixel>> process_1(vector<vector<Pixel>> image) {
     return new_image;
 }
 
+/**
+ * Adds clarendon type effect - darks darker and lights lighter
+ * @param image The input image to add effect to
+ * @return vector of vectors of type Pixel
+ */
+vector<vector<Pixel>> process_2(vector<vector<Pixel>> image) {
+    int num_rows = image.size(); // height
+    int num_columns = image[0].size(); // width
+    vector<vector<Pixel>> new_image(num_rows, vector<Pixel> (num_columns));
+    double scaling_factor = 0.3;
+
+    for (int row = 0; row < num_rows; row++)
+    {
+        for (int col = 0; col < num_columns; col++)
+        {
+            int red_color = image[row][col].red;
+            int green_color = image[row][col].green;
+            int blue_color = image[row][col].blue;
+
+            int average_color_value = (red_color + green_color + blue_color)/3;
+
+            int newred = 0;
+            int newgreen = 0;
+            int newblue = 0;
+
+            if (average_color_value >= 170)
+            {
+                newred = int(255 - (255 - red_color)*scaling_factor);
+                newgreen = int(255 - (255 - green_color)*scaling_factor);
+                newblue =  int(255 - (255 - blue_color)*scaling_factor);
+            } 
+            else if (average_color_value < 90)
+            {
+                newred = red_color * scaling_factor;
+                newgreen = green_color * scaling_factor;
+                newblue = blue_color * scaling_factor;
+            }
+            else
+            {
+                newred = red_color;
+                newgreen = green_color;
+                newblue = blue_color;
+            }
+            
+            // Set the blue color for the Pixel located at index row, col in a new 2D vector to 50
+            new_image[row][col].red = newred;
+            new_image[row][col].green = newgreen;
+            new_image[row][col].blue = newblue;
+        }
+    }
+
+    return new_image;
+}
+
+/**
+ * Greyscale the image
+ * @param image The input image to add effect to
+ * @return vector of vectors of type Pixel
+ */
+vector<vector<Pixel>> process_3(vector<vector<Pixel>> image) {
+    int num_rows = image.size(); // height
+    int num_columns = image[0].size(); // width
+    vector<vector<Pixel>> new_image(num_rows, vector<Pixel> (num_columns));
+
+    for (int row = 0; row < num_rows; row++)
+    {
+        for (int col = 0; col < num_columns; col++)
+        {
+            int red_color = image[row][col].red;
+            int green_color = image[row][col].green;
+            int blue_color = image[row][col].blue;
+
+            int gray_value = (red_color + green_color + blue_color)/3;
+            
+            new_image[row][col].red = gray_value;
+            new_image[row][col].green = gray_value;
+            new_image[row][col].blue = gray_value;
+        }
+    }
+
+    return new_image;
+}
+
+/**
+ * Rotates by 90 degrees
+ * @param image The input image to add effect to
+ * @return vector of vectors of type Pixel
+ */
+vector<vector<Pixel>> process_4(vector<vector<Pixel>> image) {
+    int num_rows = image.size(); // height
+    int num_columns = image[0].size(); // width
+    vector<vector<Pixel>> new_image(num_rows, vector<Pixel> (num_columns));
+
+    for (int row = 0; row < num_rows; row++)
+    {
+        for (int col = 0; col < num_columns; col++)
+        {
+            new_image[row][col].red = (num_rows-1);
+            new_image[row][col].green = (num_rows-1);
+            new_image[row][col].blue = (num_rows-1);
+        }
+    }
+
+    return new_image;
+}
+
+/**
+ * Rotates by 90 degrees
+ * @param image The input image to add effect to
+ * @return vector of vectors of type Pixel
+ */
+vector<vector<Pixel>> process_5(vector<vector<Pixel>> image) {
+    int num_rows = image.size(); // height
+    int num_columns = image[0].size(); // width
+    vector<vector<Pixel>> new_image(num_rows, vector<Pixel> (num_columns));
+
+    for (int row = 0; row < num_rows; row++)
+    {
+        for (int col = 0; col < num_columns; col++)
+        {
+            new_image[row][col].red = (num_rows-1);
+            new_image[row][col].green = (num_rows-1);
+            new_image[row][col].blue = (num_rows-1);
+        }
+    }
+
+    return new_image;
+}
+
+// TODO: process_6
+
+/**
+ * Converts image to high contrast - black and white only
+ * @param image The input image to add effect to
+ * @return vector of vectors of type Pixel
+ */
+vector<vector<Pixel>> process_7(vector<vector<Pixel>> image) {
+    int num_rows = image.size(); // height
+    int num_columns = image[0].size(); // width
+    vector<vector<Pixel>> new_image(num_rows, vector<Pixel> (num_columns));
+
+    for (int row = 0; row < num_rows; row++)
+    {
+        for (int col = 0; col < num_columns; col++)
+        {
+            int red_color = image[row][col].red;
+            int green_color = image[row][col].green;
+            int blue_color = image[row][col].blue;
+
+            int gray_value = (red_color + green_color + blue_color)/3;
+
+            int newred = 0;
+            int newgreen = 0;
+            int newblue = 0;
+
+            if (gray_value >= 255/2)
+            {
+                newred = 255;
+                newgreen = 255;
+                newblue = 255;
+            }
+            
+            new_image[row][col].red = newred;
+            new_image[row][col].green = newgreen;
+            new_image[row][col].blue = newblue;
+        }
+    }
+
+    return new_image;
+}
+
+/**
+ * Lightens image
+ * @param image The input image to add effect to
+ * @return vector of vectors of type Pixel
+ */
+vector<vector<Pixel>> process_8(vector<vector<Pixel>> image) {
+    int num_rows = image.size(); // height
+    int num_columns = image[0].size(); // width
+    vector<vector<Pixel>> new_image(num_rows, vector<Pixel> (num_columns));
+
+    for (int row = 0; row < num_rows; row++)
+    {
+        for (int col = 0; col < num_columns; col++)
+        {
+            int red_color = image[row][col].red;
+            int green_color = image[row][col].green;
+            int blue_color = image[row][col].blue;
+
+            double scaling_factor = 0.6;
+
+            int newred = 255 - (255 - red_color) * scaling_factor;
+            int newgreen = 255 - (255 - green_color) * scaling_factor;
+            int newblue = 255 - (255 - blue_color) * scaling_factor;
+            
+            new_image[row][col].red = newred;
+            new_image[row][col].green = newgreen;
+            new_image[row][col].blue = newblue;
+        }
+    }
+
+    return new_image;
+}
 
 int main()
 {
@@ -279,6 +487,28 @@ int main()
     // Call process_1 function using the input 2D vector and save the result returned to a new 2D vector
     vector<vector<Pixel>> img_process_1 = process_1(img);
     write_image("test_sample_process_1.bmp", img_process_1);
+
+    vector<vector<Pixel>> img_process_2 = process_2(img);
+    write_image("test_sample_process_2.bmp", img_process_2);
+
+    vector<vector<Pixel>> img_process_3 = process_3(img);
+    write_image("test_sample_process_3.bmp", img_process_3);
+
+    // TODO
+    vector<vector<Pixel>> img_process_4 = process_4(img);
+    write_image("test_sample_process_4.bmp", img_process_4);
+
+    // TODO
+    vector<vector<Pixel>> img_process_5 = process_5(img);
+    write_image("test_sample_process_5.bmp", img_process_5);
+
+    // TODO process_6
+
+    vector<vector<Pixel>> img_process_7 = process_7(img);
+    write_image("test_sample_process_7.bmp", img_process_7);
+
+    vector<vector<Pixel>> img_process_8 = process_8(img);
+    write_image("test_sample_process_8.bmp", img_process_8);
 
     // Write the resulting 2D vector to a new BMP image file (using write_image function)
 	cout << "\n\n\nThis line should be your own code!\n\n\n";
