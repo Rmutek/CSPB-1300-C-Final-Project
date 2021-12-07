@@ -238,13 +238,49 @@ bool write_image(string filename, const vector<vector<Pixel>>& image)
 // YOUR FUNCTION DEFINITIONS HERE
 //
 
+vector<vector<Pixel>> process_1(vector<vector<Pixel>> image) {
+    int num_rows = image.size(); // height
+    int num_columns = image[0].size(); // width
+    vector<vector<Pixel>> new_image(num_rows, vector<Pixel> (num_columns));
+
+    for (int row = 0; row < num_rows; row++)
+    {
+        for (int col = 0; col < num_columns; col++)
+        {
+            // find the distance to the center
+            double distance = sqrt(pow((col - num_columns/2), 2) + pow((row - num_rows/2),2));
+            double scaling_factor = (num_rows - distance)/num_rows;
+
+            int red_color = image[row][col].red;
+            int green_color = image[row][col].green;
+            int blue_color = image[row][col].blue;
+
+            int newred = red_color * scaling_factor;
+            int newgreen = green_color * scaling_factor;
+            int newblue = blue_color * scaling_factor;
+            
+            // Set the blue color for the Pixel located at index row, col in a new 2D vector to 50
+            new_image[row][col].red = newred;
+            new_image[row][col].green = newgreen;
+            new_image[row][col].blue = newblue;
+        }
+    }
+
+    return new_image;
+}
+
 
 int main()
 {
     
-    //
-    // YOUR CODE HERE
-    //
+    // Read in BMP image file into a 2D vector (using read_image function)
+    vector<vector<Pixel>> img = read_image("sample2.bmp");
+
+    // Call process_1 function using the input 2D vector and save the result returned to a new 2D vector
+    vector<vector<Pixel>> img_process_1 = process_1(img);
+    write_image("test_sample_process_1.bmp", img_process_1);
+
+    // Write the resulting 2D vector to a new BMP image file (using write_image function)
 	cout << "\n\n\nThis line should be your own code!\n\n\n";
 
     return 0;
