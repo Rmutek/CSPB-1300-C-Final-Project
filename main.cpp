@@ -365,15 +365,19 @@ vector<vector<Pixel>> process_3(vector<vector<Pixel>> image) {
 vector<vector<Pixel>> process_4(vector<vector<Pixel>> image) {
     int num_rows = image.size(); // height
     int num_columns = image[0].size(); // width
-    vector<vector<Pixel>> new_image(num_rows, vector<Pixel> (num_columns));
+    vector<vector<Pixel>> new_image(num_columns, vector<Pixel> (num_rows));
 
-    for (int row = 0; row < num_rows; row++)
+    for (int row = 0; row < num_columns; row++)
     {
-        for (int col = 0; col < num_columns; col++)
+        for (int col = 0; col < num_rows; col++)
         {
-            new_image[row][col].red = (num_rows-1);
-            new_image[row][col].green = (num_rows-1);
-            new_image[row][col].blue = (num_rows-1);
+            int red_color = image[col][row].red;
+            int green_color = image[col][row].green;
+            int blue_color = image[col][row].blue;
+
+            new_image[row][col].red = red_color;
+            new_image[row][col].green = green_color;
+            new_image[row][col].blue = blue_color;
         }
     }
 
@@ -381,7 +385,7 @@ vector<vector<Pixel>> process_4(vector<vector<Pixel>> image) {
 }
 
 /**
- * Rotates by 90 degrees
+ * Rotates by multiples of 90 degrees
  * @param image The input image to add effect to
  * @return vector of vectors of type Pixel
  */
@@ -403,7 +407,37 @@ vector<vector<Pixel>> process_5(vector<vector<Pixel>> image) {
     return new_image;
 }
 
-// TODO: process_6
+/**
+ * Enlarges in the x and y direction
+ * @param image The input image to add effect to
+ * @return vector of vectors of type Pixel
+ */
+vector<vector<Pixel>> process_6(vector<vector<Pixel>> image, int x, int y) {
+    int num_rows = image.size(); // height
+    int new_rows = num_rows * y;
+    int num_columns = image[0].size(); // width
+    int new_columns = num_columns * x; // width
+    vector<vector<Pixel>> new_image(new_rows, vector<Pixel> (new_columns));
+
+    for (int row = 0; row < new_rows; row++)
+    {
+        for (int col = 0; col < new_columns; col++)
+        {
+            int colx = col/x;
+            int rowy = row/y;
+
+            int red_color = image[rowy][colx].red;
+            int green_color = image[rowy][colx].green;
+            int blue_color = image[rowy][colx].blue;
+
+            new_image[row][col].red = red_color;
+            new_image[row][col].green = green_color;
+            new_image[row][col].blue = blue_color;
+        }
+    }
+
+    return new_image;
+}
 
 /**
  * Converts image to high contrast - black and white only
@@ -599,7 +633,7 @@ int main()
     vector<vector<Pixel>> img_process_3 = process_3(img);
     write_image("test_sample_process_3.bmp", img_process_3);
 
-    // TODO
+    // TODO - currently rotating the wrong way
     vector<vector<Pixel>> img_process_4 = process_4(img);
     write_image("test_sample_process_4.bmp", img_process_4);
 
@@ -607,7 +641,10 @@ int main()
     vector<vector<Pixel>> img_process_5 = process_5(img);
     write_image("test_sample_process_5.bmp", img_process_5);
 
-    // TODO process_6
+    int x = 1;
+    int y = 4;
+    vector<vector<Pixel>> img_process_6 = process_6(img, x, y);
+    write_image("test_sample_process_6.bmp", img_process_6);
 
     vector<vector<Pixel>> img_process_7 = process_7(img);
     write_image("test_sample_process_7.bmp", img_process_7);
