@@ -358,52 +358,11 @@ vector<vector<Pixel>> process_3(vector<vector<Pixel>> image) {
 }
 
 /**
- * Rotates by 90 degrees
+ * Rotates by 270 degrees
  * @param image The input image to add effect to
  * @return vector of vectors of type Pixel
  */
-// vector<vector<Pixel>> process_4(vector<vector<Pixel>> image) {
-//     int num_rows = image.size(); // height
-//     int num_columns = image[0].size(); // width
-//     vector<vector<Pixel>> new_image(num_columns, vector<Pixel> (num_rows));
-
-//     for (int row = 0; row < num_rows; row++)
-//     {
-//         for (int col = 0; col < num_columns; col++)
-//         {
-//             int red_color = image[row][col].red;
-//             int green_color = image[row][col].green;
-//             int blue_color = image[row][col].blue;
-            
-//             new_image[col][row-1].red = red_color;
-//             new_image[col][row-1].green = green_color;
-//             new_image[col][row-1].blue = blue_color;
-//         }
-//     }
-
-//     // for (int col = num_columns; col > 0; col--)
-//     // {
-//     //     for (int row = 0; row < num_rows; row++)
-//     //     {
-//     //         int red_color = image[col][row].red;
-//     //         int green_color = image[col][row].green;
-//     //         int blue_color = image[col][row].blue;
-
-//     //         new_image[col][row].red = red_color;
-//     //         new_image[col][row].green = green_color;
-//     //         new_image[col][row].blue = blue_color;
-//     //     }
-//     // }
-
-//     return new_image;
-// }
-
-/**
- * Rotates by 90 degrees
- * @param image The input image to add effect to
- * @return vector of vectors of type Pixel
- */
-vector<vector<Pixel>> process_4(vector<vector<Pixel>> image) {
+vector<vector<Pixel>> process_rotate_270(vector<vector<Pixel>> image) {
     int num_rows = image.size(); // height
     int num_columns = image[0].size(); // width
     int new_rows = num_columns;
@@ -428,7 +387,7 @@ vector<vector<Pixel>> process_4(vector<vector<Pixel>> image) {
     return new_image;
 }
 
-vector<vector<Pixel>> process_4_2(vector<vector<Pixel>> image) {
+vector<vector<Pixel>> process_reflect_image(vector<vector<Pixel>> image) {
     int num_rows = image.size(); // height
     int num_columns = image[0].size(); // width
     vector<vector<Pixel>> new_image(num_rows, vector<Pixel> (num_columns));
@@ -451,29 +410,52 @@ vector<vector<Pixel>> process_4_2(vector<vector<Pixel>> image) {
     return new_image;
 }
 
-
+/**
+ * Rotates by 90 degrees
+ * @param image The input image to add effect to
+ * @return vector of vectors of type Pixel
+ */
+vector<vector<Pixel>> process_4(vector<vector<Pixel>> image) {
+    vector<vector<Pixel>> img_process_rotate_270 = process_rotate_270(image);
+    vector<vector<Pixel>> img_process_4 = process_reflect_image(img_process_rotate_270);
+    return img_process_4;
+}
 
 /**
  * Rotates by multiples of 90 degrees
  * @param image The input image to add effect to
  * @return vector of vectors of type Pixel
  */
-vector<vector<Pixel>> process_5(vector<vector<Pixel>> image) {
-    int num_rows = image.size(); // height
-    int num_columns = image[0].size(); // width
-    vector<vector<Pixel>> new_image(num_rows, vector<Pixel> (num_columns));
-
-    for (int row = 0; row < num_rows; row++)
+vector<vector<Pixel>> process_5(vector<vector<Pixel>> image, int degrees) {
+    int angle = degrees * 90;
+    cout << "ANGLE " << angle << endl;
+    if (angle%90 != 0)
     {
-        for (int col = 0; col < num_columns; col++)
-        {
-            new_image[row][col].red = (num_rows-1);
-            new_image[row][col].green = (num_rows-1);
-            new_image[row][col].blue = (num_rows-1);
-        }
+        cout << "Angle must be a multiple of 90 degrees.";
+        return image;
     }
+    else if ((angle%360) == 0)
+    {
+        cout << "angle 360";
+        return image;
+    }
+    else if ((angle%90) == 90)
+    {
+        cout << "angle 90";
+        vector<vector<Pixel>> final_image = process_4(image);
+        return final_image;
 
-    return new_image;
+    }
+    else if ((angle%360) == 180)
+    {
+        cout << "angle 180";
+        return image;
+    }
+    else {
+        cout << "angle 270";
+        vector<vector<Pixel>> final_image = process_rotate_270(image);
+        return final_image;
+    }
 }
 
 /**
@@ -703,12 +685,10 @@ int main()
     write_image("test_sample_process_3.bmp", img_process_3);
 
     vector<vector<Pixel>> img_process_4 = process_4(img);
+    write_image("test_sample_process_4.bmp", img_process_4);
 
-    vector<vector<Pixel>> img_process_4_2 = process_4_2(img_process_4);
-    write_image("test_sample_process_4.bmp", img_process_4_2);
-
-    // TODO
-    vector<vector<Pixel>> img_process_5 = process_5(img);
+    int degrees = 444;
+    vector<vector<Pixel>> img_process_5 = process_5(img, degrees);
     write_image("test_sample_process_5.bmp", img_process_5);
 
     int x = 1;
@@ -730,6 +710,57 @@ int main()
 
     // Write the resulting 2D vector to a new BMP image file (using write_image function)
 	cout << "\n\n\nThis line should be your own code!\n\n\n";
+
+    cout << "CSPB 1300 Image Processing Application" << endl;
+    cout << "Enter input BMP filename: ";
+    string input_file;
+    cin >> input_file;
+    string menu_item_selected = "x";
+
+    while (menu_item_selected != "Q") {
+        cout << "\n";
+        cout << "IMAGE PROCESSING MENU" << endl;
+        cout << "0) Change image (current: sample.bmp)" << endl;
+        cout << "1) Vignette" << endl;
+        cout << "2) Clarendon" << endl;
+        cout << "3) Grayscale" << endl;
+        cout << "4) Rotate 90 degrees" << endl;
+        cout << "5) Rotate multiple 90 degrees" << endl;
+        cout << "6) Enlarge" << endl;
+        cout << "7) High contrast" << endl;
+        cout << "8) Lighten" << endl;
+        cout << "9) Darken" << endl;
+        cout << "10) Black, white, red, green, blue" << endl;
+
+        cout << "Enter menu selection (Q to quit):";
+        cin >> menu_item_selected;
+
+        if (menu_item_selected == "Q") {
+            return 0;
+        } else if (menu_item_selected == "1") {
+            cout << "Vignette selected" << endl;
+        } else if (menu_item_selected == "2") {
+            cout << "Clarendon selected" << endl;
+        } else if (menu_item_selected == "3") {
+            cout << "Grayscale selected" << endl;
+        } else if (menu_item_selected == "4") {
+            cout << "Rotate 90 degrees selected" << endl;
+        } else if (menu_item_selected == "5") {
+            cout << "Rotate multiple 90 degrees selected" << endl;
+        } else if (menu_item_selected == "6") {
+            cout << "Enlarge selected" << endl;
+        } else if (menu_item_selected == "7") {
+            cout << "High contrast selected" << endl;
+        } else if (menu_item_selected == "8") {
+            cout << "Lighten selected" << endl;
+        } else if (menu_item_selected == "9") {
+            cout << "Darken selected" << endl;
+        } else if (menu_item_selected == "10") {
+            cout << "Black, white, red, green, blue selected" << endl;
+        } else {
+            cout << "Input selected is not valid. Please select a valid option." << endl;
+        }
+    }
 
     return 0;
 }
