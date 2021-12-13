@@ -277,6 +277,7 @@ vector<vector<Pixel>> process_1(vector<vector<Pixel>> image) {
 /**
  * Adds clarendon type effect - darks darker and lights lighter
  * @param image The input image to add effect to
+ * @param scaling_factor The input image to add effect to
  * @return vector of vectors of type Pixel
  */
 vector<vector<Pixel>> process_2(vector<vector<Pixel>> image, double scaling_factor) {
@@ -423,6 +424,7 @@ vector<vector<Pixel>> process_4(vector<vector<Pixel>> image) {
 /**
  * Rotates by multiples of 90 degrees
  * @param image The input image to add effect to
+ * @param rotations The number of times to rotate the image
  * @return vector of vectors of type Pixel
  */
 vector<vector<Pixel>> process_5(vector<vector<Pixel>> image, int rotations) {
