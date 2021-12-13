@@ -675,7 +675,7 @@ int main()
     string menu_item_selected = "x";
 
     while (menu_item_selected != "Q") {
-        cout << "\n";
+        cout << "\n\n";
         cout << "IMAGE PROCESSING MENU" << endl;
         cout << "0) Change image (current: " << input_file <<  ")" << endl;
         cout << "1) Vignette" << endl;
@@ -693,6 +693,8 @@ int main()
         cin >> menu_item_selected;
 
         if (menu_item_selected == "Q" || menu_item_selected == "q") {
+            cout << "Thank you for using my program!" << endl;
+            cout << "Quitting..." << endl;
             return 0;
         } else if (menu_item_selected == "0") {
             cout << "Change image selected (current: " << input_file <<  ")" << endl;
