@@ -279,11 +279,10 @@ vector<vector<Pixel>> process_1(vector<vector<Pixel>> image) {
  * @param image The input image to add effect to
  * @return vector of vectors of type Pixel
  */
-vector<vector<Pixel>> process_2(vector<vector<Pixel>> image) {
+vector<vector<Pixel>> process_2(vector<vector<Pixel>> image, double scaling_factor) {
     int num_rows = image.size(); // height
     int num_columns = image[0].size(); // width
     vector<vector<Pixel>> new_image(num_rows, vector<Pixel> (num_columns));
-    double scaling_factor = 0.3;
 
     for (int row = 0; row < num_rows; row++)
     {
@@ -426,9 +425,8 @@ vector<vector<Pixel>> process_4(vector<vector<Pixel>> image) {
  * @param image The input image to add effect to
  * @return vector of vectors of type Pixel
  */
-vector<vector<Pixel>> process_5(vector<vector<Pixel>> image, int degrees) {
-    int angle = degrees * 90;
-    cout << "ANGLE " << angle << endl;
+vector<vector<Pixel>> process_5(vector<vector<Pixel>> image, int rotations) {
+    int angle = rotations * 90;
     if (angle%90 != 0)
     {
         cout << "Angle must be a multiple of 90 degrees.";
@@ -670,26 +668,7 @@ vector<vector<Pixel>> process_10(vector<vector<Pixel>> image) {
 
 int main()
 {
-    
-    // Read in BMP image file into a 2D vector (using read_image function)
     vector<vector<Pixel>> img = read_image("sample2.bmp");
-
-    // Call process_1 function using the input 2D vector and save the result returned to a new 2D vector
-    vector<vector<Pixel>> img_process_1 = process_1(img);
-    write_image("test_sample_process_1.bmp", img_process_1);
-
-    vector<vector<Pixel>> img_process_2 = process_2(img);
-    write_image("test_sample_process_2.bmp", img_process_2);
-
-    vector<vector<Pixel>> img_process_3 = process_3(img);
-    write_image("test_sample_process_3.bmp", img_process_3);
-
-    vector<vector<Pixel>> img_process_4 = process_4(img);
-    write_image("test_sample_process_4.bmp", img_process_4);
-
-    int degrees = 444;
-    vector<vector<Pixel>> img_process_5 = process_5(img, degrees);
-    write_image("test_sample_process_5.bmp", img_process_5);
 
     int x = 1;
     int y = 4;
@@ -744,14 +723,72 @@ int main()
             cout << "Successfully changed input image!" << endl;
         } else if (menu_item_selected == "1") {
             cout << "Vignette selected" << endl;
+
+            cout << "Enter output BMP filename: ";
+            string output_file_name;
+            cin >> output_file_name;
+
+            vector<vector<Pixel>> img = read_image(input_file);
+            vector<vector<Pixel>> img_process_1 = process_1(img);
+            write_image(output_file_name, img_process_1);
+
+            cout << "Successfully applied vignette!" << endl;
         } else if (menu_item_selected == "2") {
             cout << "Clarendon selected" << endl;
+
+            cout << "Enter output BMP filename: ";
+            string output_file_name;
+            cin >> output_file_name;
+
+            cout << "Enter scaling factor: ";
+            double scaling_factor;
+            cin >> scaling_factor;
+
+            vector<vector<Pixel>> img = read_image(input_file);
+            vector<vector<Pixel>> img_process_2 = process_2(img, scaling_factor);
+            write_image(output_file_name, img_process_2);
+
+            cout << "Successfully applied clarendon!" << endl;
         } else if (menu_item_selected == "3") {
             cout << "Grayscale selected" << endl;
+
+            cout << "Enter output BMP filename: ";
+            string output_file_name;
+            cin >> output_file_name;
+
+            vector<vector<Pixel>> img = read_image(input_file);
+            vector<vector<Pixel>> img_process_3 = process_3(img);
+            write_image(output_file_name, img_process_3);
+
+            cout << "Successfully applied grayscale!" << endl;
         } else if (menu_item_selected == "4") {
             cout << "Rotate 90 degrees selected" << endl;
+
+            cout << "Enter output BMP filename: ";
+            string output_file_name;
+            cin >> output_file_name;
+
+            vector<vector<Pixel>> img = read_image(input_file);
+            vector<vector<Pixel>> img_process_4 = process_4(img);
+            write_image(output_file_name, img_process_4);
+
+            cout << "Successfully applied 90 degree rotation!" << endl;
         } else if (menu_item_selected == "5") {
             cout << "Rotate multiple 90 degrees selected" << endl;
+
+            cout << "Enter output BMP filename: ";
+            string output_file_name;
+            cin >> output_file_name;
+
+            cout << "Enter number of 90 degree rotations: ";
+            int number_of_rotations;
+            cin >> number_of_rotations;
+
+            vector<vector<Pixel>> img = read_image(input_file);
+            vector<vector<Pixel>> img_process_5 = process_5(img, number_of_rotations);
+            write_image(output_file_name, img_process_5);
+
+            cout << "Successfully applied multiple 90 degree rotations!" << endl;
         } else if (menu_item_selected == "6") {
             cout << "Enlarge selected" << endl;
         } else if (menu_item_selected == "7") {
