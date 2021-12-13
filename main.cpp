@@ -720,7 +720,7 @@ int main()
     while (menu_item_selected != "Q") {
         cout << "\n";
         cout << "IMAGE PROCESSING MENU" << endl;
-        cout << "0) Change image (current: sample.bmp)" << endl;
+        cout << "0) Change image (current: " << input_file <<  ")" << endl;
         cout << "1) Vignette" << endl;
         cout << "2) Clarendon" << endl;
         cout << "3) Grayscale" << endl;
@@ -735,8 +735,13 @@ int main()
         cout << "Enter menu selection (Q to quit):";
         cin >> menu_item_selected;
 
-        if (menu_item_selected == "Q") {
+        if (menu_item_selected == "Q" || menu_item_selected == "q") {
             return 0;
+        } else if (menu_item_selected == "0") {
+            cout << "Change image selected (current: " << input_file <<  ")" << endl;
+            cout << "Enter new input BMP filename: ";
+            cin >> input_file;
+            cout << "Successfully changed input image!" << endl;
         } else if (menu_item_selected == "1") {
             cout << "Vignette selected" << endl;
         } else if (menu_item_selected == "2") {
