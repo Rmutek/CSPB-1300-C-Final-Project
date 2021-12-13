@@ -459,6 +459,8 @@ vector<vector<Pixel>> process_5(vector<vector<Pixel>> image, int rotations) {
 /**
  * Enlarges in the x and y direction
  * @param image The input image to add effect to
+ * @param x The amount to grow the image horizontally
+ * @param y The amount to grow the image vertically
  * @return vector of vectors of type Pixel
  */
 vector<vector<Pixel>> process_6(vector<vector<Pixel>> image, int x, int y) {
@@ -531,9 +533,10 @@ vector<vector<Pixel>> process_7(vector<vector<Pixel>> image) {
 /**
  * Lightens image
  * @param image The input image to add effect to
+ * @param scaling_factor The degree the image should be lightened
  * @return vector of vectors of type Pixel
  */
-vector<vector<Pixel>> process_8(vector<vector<Pixel>> image) {
+vector<vector<Pixel>> process_8(vector<vector<Pixel>> image, double scaling_factor) {
     int num_rows = image.size(); // height
     int num_columns = image[0].size(); // width
     vector<vector<Pixel>> new_image(num_rows, vector<Pixel> (num_columns));
@@ -545,8 +548,6 @@ vector<vector<Pixel>> process_8(vector<vector<Pixel>> image) {
             int red_color = image[row][col].red;
             int green_color = image[row][col].green;
             int blue_color = image[row][col].blue;
-
-            double scaling_factor = 0.6;
 
             int newred = 255 - (255 - red_color) * scaling_factor;
             int newgreen = 255 - (255 - green_color) * scaling_factor;
@@ -564,9 +565,10 @@ vector<vector<Pixel>> process_8(vector<vector<Pixel>> image) {
 /**
  * Darkens image
  * @param image The input image to add effect to
+ * @param image The input image to add effect to
  * @return vector of vectors of type Pixel
  */
-vector<vector<Pixel>> process_9(vector<vector<Pixel>> image) {
+vector<vector<Pixel>> process_9(vector<vector<Pixel>> image, double scaling_factor) {
     int num_rows = image.size(); // height
     int num_columns = image[0].size(); // width
     vector<vector<Pixel>> new_image(num_rows, vector<Pixel> (num_columns));
@@ -578,8 +580,6 @@ vector<vector<Pixel>> process_9(vector<vector<Pixel>> image) {
             int red_color = image[row][col].red;
             int green_color = image[row][col].green;
             int blue_color = image[row][col].blue;
-
-            double scaling_factor = 0.55;
 
             int newred = red_color * scaling_factor;
             int newgreen = green_color * scaling_factor;
@@ -668,28 +668,6 @@ vector<vector<Pixel>> process_10(vector<vector<Pixel>> image) {
 
 int main()
 {
-    vector<vector<Pixel>> img = read_image("sample2.bmp");
-
-    int x = 1;
-    int y = 4;
-    vector<vector<Pixel>> img_process_6 = process_6(img, x, y);
-    write_image("test_sample_process_6.bmp", img_process_6);
-
-    vector<vector<Pixel>> img_process_7 = process_7(img);
-    write_image("test_sample_process_7.bmp", img_process_7);
-
-    vector<vector<Pixel>> img_process_8 = process_8(img);
-    write_image("test_sample_process_8.bmp", img_process_8);
-
-    vector<vector<Pixel>> img_process_9 = process_9(img);
-    write_image("test_sample_process_9.bmp", img_process_9);
-
-    vector<vector<Pixel>> img_process_10 = process_10(img);
-    write_image("test_sample_process_10.bmp", img_process_10);
-
-    // Write the resulting 2D vector to a new BMP image file (using write_image function)
-	cout << "\n\n\nThis line should be your own code!\n\n\n";
-
     cout << "CSPB 1300 Image Processing Application" << endl;
     cout << "Enter input BMP filename: ";
     string input_file;
@@ -791,14 +769,80 @@ int main()
             cout << "Successfully applied multiple 90 degree rotations!" << endl;
         } else if (menu_item_selected == "6") {
             cout << "Enlarge selected" << endl;
+
+            cout << "Enter output BMP filename: ";
+            string output_file_name;
+            cin >> output_file_name;
+
+            cout << "Enter X scale: ";
+            int x_scale;
+            cin >> x_scale;
+
+            cout << "Enter Y scale: ";
+            int y_scale;
+            cin >> y_scale;
+
+            vector<vector<Pixel>> img = read_image(input_file);
+            vector<vector<Pixel>> img_process_6 = process_6(img, x_scale, y_scale);
+            write_image(output_file_name, img_process_6);
+
+            cout << "Successfully enlarged!" << endl;
         } else if (menu_item_selected == "7") {
             cout << "High contrast selected" << endl;
+
+            cout << "Enter output BMP filename: ";
+            string output_file_name;
+            cin >> output_file_name;
+
+            vector<vector<Pixel>> img = read_image(input_file);
+            vector<vector<Pixel>> img_process_7 = process_7(img);
+            write_image(output_file_name, img_process_7);
+
+            cout << "Successfully applied high contrast!" << endl;
         } else if (menu_item_selected == "8") {
             cout << "Lighten selected" << endl;
+
+            cout << "Enter output BMP filename: ";
+            string output_file_name;
+            cin >> output_file_name;
+
+            cout << "Enter scaling factor: ";
+            double scaling_factor;
+            cin >> scaling_factor;
+
+            vector<vector<Pixel>> img = read_image(input_file);
+            vector<vector<Pixel>> img_process_8 = process_8(img, scaling_factor);
+            write_image(output_file_name, img_process_8);
+
+            cout << "Successfully lightened!" << endl;
         } else if (menu_item_selected == "9") {
             cout << "Darken selected" << endl;
+
+            cout << "Enter output BMP filename: ";
+            string output_file_name;
+            cin >> output_file_name;
+
+            cout << "Enter scaling factor: ";
+            double scaling_factor;
+            cin >> scaling_factor;
+
+            vector<vector<Pixel>> img = read_image(input_file);
+            vector<vector<Pixel>> img_process_9 = process_9(img, scaling_factor);
+            write_image(output_file_name, img_process_9);
+
+            cout << "Successfully darkened!" << endl;
         } else if (menu_item_selected == "10") {
             cout << "Black, white, red, green, blue selected" << endl;
+
+            cout << "Enter output BMP filename: ";
+            string output_file_name;
+            cin >> output_file_name;
+
+            vector<vector<Pixel>> img = read_image(input_file);
+            vector<vector<Pixel>> img_process_10 = process_10(img);
+            write_image(output_file_name, img_process_10);
+
+            cout << "Successfully applied black, white, red, green, blue filter!" << endl;
         } else {
             cout << "Input selected is not valid. Please select a valid option." << endl;
         }
