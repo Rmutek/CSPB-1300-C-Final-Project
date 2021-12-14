@@ -233,11 +233,6 @@ bool write_image(string filename, const vector<vector<Pixel>>& image)
 //                                DO NOT MODIFY THE SECTION ABOVE                                    //
 //***************************************************************************************************//
 
-
-//
-// YOUR FUNCTION DEFINITIONS HERE
-//
-
 /**
  * Adds vignette effect - dark corners
  * @param image The input image to add effect to
@@ -277,7 +272,7 @@ vector<vector<Pixel>> process_1(vector<vector<Pixel>> image) {
 /**
  * Adds clarendon type effect - darks darker and lights lighter
  * @param image The input image to add effect to
- * @param scaling_factor The input image to add effect to
+ * @param scaling_factor The amount the darks will darken and lights will lighten
  * @return vector of vectors of type Pixel
  */
 vector<vector<Pixel>> process_2(vector<vector<Pixel>> image, double scaling_factor) {
@@ -591,7 +586,7 @@ vector<vector<Pixel>> process_8(vector<vector<Pixel>> image, double scaling_fact
 /**
  * Darkens image
  * @param image The input image to add effect to
- * @param image The input image to add effect to
+ * @param scaling_factor The degree the image should be darkened
  * @return vector of vectors of type Pixel
  */
 vector<vector<Pixel>> process_9(vector<vector<Pixel>> image, double scaling_factor) {
@@ -700,7 +695,7 @@ int main()
     cin >> input_file;
     string menu_item_selected = "x";
 
-    while (menu_item_selected != "Q") {
+    while (menu_item_selected != "Q" || menu_item_selected == "q" || menu_item_selected == "quit") {
         cout << "\n\n";
         cout << "IMAGE PROCESSING MENU" << endl;
         cout << "0) Change image (current: " << input_file <<  ")" << endl;
@@ -718,7 +713,7 @@ int main()
         cout << "Enter menu selection (Q to quit):";
         cin >> menu_item_selected;
 
-        if (menu_item_selected == "Q" || menu_item_selected == "q") {
+        if (menu_item_selected == "Q" || menu_item_selected == "q" || menu_item_selected == "quit") {
             cout << "Thank you for using my program!" << endl;
             cout << "Quitting..." << endl;
             return 0;
