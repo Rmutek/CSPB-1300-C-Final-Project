@@ -358,6 +358,33 @@ vector<vector<Pixel>> process_3(vector<vector<Pixel>> image) {
 }
 
 /**
+ * Rotates by 180 degrees
+ * @param image The input image to add effect to
+ * @return vector of vectors of type Pixel
+ */
+vector<vector<Pixel>> process_rotate_180(vector<vector<Pixel>> image) {
+    int num_rows = image.size(); // height
+    int num_columns = image[0].size(); // width
+    vector<vector<Pixel>> new_image(num_rows, vector<Pixel> (num_columns));
+
+    for (int row = 0; row < num_rows; row++)
+    {
+        for (int col = 0; col < num_columns; col++)
+        {
+            int red_color = image[num_rows - row - 1][col].red;
+            int green_color = image[num_rows - row - 1][col].green;
+            int blue_color = image[num_rows - row - 1][col].blue;
+
+            new_image[row][col].red = red_color;
+            new_image[row][col].green = green_color;
+            new_image[row][col].blue = blue_color;
+        }
+    }
+
+    return new_image;
+}
+
+/**
  * Rotates by 270 degrees
  * @param image The input image to add effect to
  * @return vector of vectors of type Pixel
@@ -436,23 +463,20 @@ vector<vector<Pixel>> process_5(vector<vector<Pixel>> image, int rotations) {
     }
     else if ((angle%360) == 0)
     {
-        cout << "angle 360";
         return image;
     }
-    else if ((angle%90) == 90)
+    else if ((angle%360) == 90)
     {
-        cout << "angle 90";
         vector<vector<Pixel>> final_image = process_4(image);
         return final_image;
 
     }
     else if ((angle%360) == 180)
     {
-        cout << "angle 180";
-        return image;
+        vector<vector<Pixel>> final_image = process_rotate_180(image);
+        return final_image;
     }
     else {
-        cout << "angle 270";
         vector<vector<Pixel>> final_image = process_rotate_270(image);
         return final_image;
     }
