@@ -468,7 +468,8 @@ vector<vector<Pixel>> process_5(vector<vector<Pixel>> image, int rotations) {
     }
     else if ((angle%360) == 180)
     {
-        vector<vector<Pixel>> final_image = process_rotate_180(image);
+        vector<vector<Pixel>> image_180 = process_rotate_180(image);
+        vector<vector<Pixel>> final_image = process_reflect_image(image_180);
         return final_image;
     }
     else {
